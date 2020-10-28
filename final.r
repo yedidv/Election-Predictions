@@ -4,7 +4,7 @@ source('finalfunctions.r')
 ##### INITIAL PREDICTIONS: USING POLLING TO PREDICT THE FINAL ELECTIONS ##### 
 
 ### Read Polling CSV File 
-polling <- ReadCsv('/Users/vijayyedidi/Desktop/msba/fall2020/datascience/Final_Project/presidential_polls_2020.csv')
+polling <- ReadCsv('presidential_polls_2020.csv')
 
 ## Subset the Dataframe to remove NE-1, NE-2, ME-1, ME-2
 polling <- subset.data.frame(polling,  !(polling$state %in% c('NE-1', 'ME-2', 'NE-2', 'ME-1')))
@@ -34,7 +34,7 @@ UsMapPlot(polling_house_trend_pct_winner, 'Polling Predictions- House and Trend 
 
 
 ##### Prediction 2: Using Historical Data to Try and Predict Elections ####### 
-historical_polls <- ReadCsv('/Users/vijayyedidi/Desktop/msba/fall2020/datascience/Final_Project/1976_2016_president.csv')
+historical_polls <- ReadCsv('1976_2016_president.csv')
 head(historical_polls)
 ## Convert to percentages of votes per state to make data comparison easier. 
 historical_polls$percentvotes <- historical_polls$candidatevotes / historical_polls$totalvotes
