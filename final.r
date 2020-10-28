@@ -102,7 +102,7 @@ summary(lm(dem_popular ~ unemployment_rate + gdp_growth + inflation, data = winn
 summary(lm(rep_popular ~ unemployment_rate + gdp_growth + inflation, data = winner_economy))
 summary(lm(party ~ unemployment_rate + gdp_growth + inflation, data = winner_economy))
 
-
+print('hi') 
 
 
 
