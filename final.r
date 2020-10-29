@@ -24,13 +24,27 @@ polling$logtrendhouse <- log(polling$trend_and_house_adjusted_pct)
 polling_pct_winner <- PollingResults(polling, 0) 
 UsMapPlot(polling_pct_winner, 'Polling Predictions') 
 
+## Count how many states each candidate won. 
+dem_winner_count <- CountWinner(polling_pct_winner) 
+rep_winner_count <- CountWinner(polling_pct_winner) 
+
+
 ## House Adjusted Polling Averages
 polling_house_pct_winner <- PollingResults(polling, 'house')
 UsMapPlot(polling_pct_winner, 'Polling Predictions- House Adjusted') 
 
+## Count how many states each candidate won. 
+dem_winner_house_count <- CountWinner(polling_pct_winner) 
+rep_winner_house_count <- CountWinner(polling_pct_winner) 
+
+
 ## House and Trend Adjusted Polling Averages
 polling_house_trend_pct_winner <- PollingResults(polling, 'trend_and_house')
 UsMapPlot(polling_house_trend_pct_winner, 'Polling Predictions- House and Trend Adjusted') 
+
+## Count how many states each candidate won. 
+dem_winner_house_trend_count <- CountWinner(polling_pct_winner) 
+rep_winner_house_trend_count <- CountWinner(polling_pct_winner) 
 
 
 ##### Prediction 2: Using Historical Data to Try and Predict Elections ####### 
@@ -51,6 +65,10 @@ head(historical_polls)
 ## which would return the predicted winner for each state based on historical data
 historical_winner <- HistoricalPrediction(historical_polls) 
 UsMapPlot(historical_winner, 'Average Historical Elections')
+
+## Count how many states each candidate won. 
+dem_winner_house_historical_count_ <- CountWinner(historical_winner) 
+rep_winner_house_historical_count <- CountWinner(historical_winner) 
 
 ## In order to find states we are sure will go to Trump or to Biden, we can 
 ## merge the two tables of the winner of the polls and of this historical polls
@@ -95,6 +113,7 @@ winner_economy <- merge(x = unemployment_electionyear,
                         by = 'year', 
                         all = TRUE)
 
+
 head(winner_economy) 
 
 ## We find there is a moderate correlation between the democratic popular vote and the unemployment factors
@@ -102,7 +121,8 @@ summary(lm(dem_popular ~ unemployment_rate + gdp_growth + inflation, data = winn
 summary(lm(rep_popular ~ unemployment_rate + gdp_growth + inflation, data = winner_economy))
 summary(lm(party ~ unemployment_rate + gdp_growth + inflation, data = winner_economy))
 
+dem_lm <- lm(dem_popular ~ unemployment_rate + gdp_growth + inflation, data = winner_economy)
 
-
+dem_popular_winning <- 
 
 
