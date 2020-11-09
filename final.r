@@ -1,6 +1,34 @@
 source('finalfunctions.r')
 
 
+CountWinner <- function(data, party){
+  ## Count how many states each candidate wins in the predictions. 
+  return(length(subset.data.frame(data, (winner == party) & (state != 'National') )$state))
+}
+
+dem_winner_pct <- CountWinner(polling_pct_winner, 'democrat') 
+rep_winner_pct <- CountWinner(polling_pct_winner, 'republican')
+dem_winner_house  <- CountWinner(polling_house_pct_winner, 'democrat')
+rep_winner_house  <- CountWinner(polling_house_pct_winner, 'republican')
+dem_winner_trend_house  <- CountWinner(polling_house_trend_pct_winner, 'democrat')
+rep_winner_trend_house  <- CountWinner(polling_house_trend_pct_winner, 'republican')
+dem_winner_historical  <- CountWinner(historical_winner, 'democrat')
+rep_winner_historical  <- CountWinner(historical_winner, 'republican')
+dem_winner_trend_house_historical  <- CountWinner(average_polling_merge, 'democrat')
+rep_winner_trend_house_historical  <- CountWinner(average_polling_merge, 'republican')
+
+print(dem_winner_pct)
+print(dem_winner_house, rep_winner_house)  
+print(dem_winner_trend_house, rep_winner_trend_house) 
+print(dem_winner_historical, rep_winner_trend_house )
+print(dem_winner_historical, rep_winner_historical)
+
+print(dem_winner_historical) 
+print(rep_winner_historical) 
+
+print(dem_winner_trend_house_historical) 
+print(rep_winner_trend_house_historical)
+
 ##### INITIAL PREDICTIONS: USING POLLING TO PREDICT THE FINAL ELECTIONS ##### 
 
 ### Read Polling CSV File 
@@ -24,27 +52,21 @@ polling$logtrendhouse <- log(polling$trend_and_house_adjusted_pct)
 polling_pct_winner <- PollingResults(polling, 0) 
 UsMapPlot(polling_pct_winner, 'Polling Predictions') 
 
-## Count how many states each candidate won. 
-dem_winner_count <- CountWinner(polling_pct_winner) 
-rep_winner_count <- CountWinner(polling_pct_winner) 
+
 
 
 ## House Adjusted Polling Averages
 polling_house_pct_winner <- PollingResults(polling, 'house')
 UsMapPlot(polling_pct_winner, 'Polling Predictions- House Adjusted') 
 
-## Count how many states each candidate won. 
-dem_winner_house_count <- CountWinner(polling_pct_winner) 
-rep_winner_house_count <- CountWinner(polling_pct_winner) 
+
 
 
 ## House and Trend Adjusted Polling Averages
 polling_house_trend_pct_winner <- PollingResults(polling, 'trend_and_house')
 UsMapPlot(polling_house_trend_pct_winner, 'Polling Predictions- House and Trend Adjusted') 
 
-## Count how many states each candidate won. 
-dem_winner_house_trend_count <- CountWinner(polling_pct_winner) 
-rep_winner_house_trend_count <- CountWinner(polling_pct_winner) 
+
 
 
 ##### Prediction 2: Using Historical Data to Try and Predict Elections ####### 
@@ -66,9 +88,9 @@ head(historical_polls)
 historical_winner <- HistoricalPrediction(historical_polls) 
 UsMapPlot(historical_winner, 'Average Historical Elections')
 
-## Count how many states each candidate won. 
-dem_winner_house_historical_count_ <- CountWinner(historical_winner) 
-rep_winner_house_historical_count <- CountWinner(historical_winner) 
+
+
+
 
 ## In order to find states we are sure will go to Trump or to Biden, we can 
 ## merge the two tables of the winner of the polls and of this historical polls
@@ -87,6 +109,10 @@ average_polling_merge$winner <- ifelse((average_polling_merge$winner.x == averag
                                               'republican'), 
                                        'No Winner') 
 UsMapPlot(average_polling_merge, 'Polling vs Average Joint Predictions') 
+
+ 
+print(dem_winner_house_count) 
+print(rep_winner_house_count) 
 
 
 ######## Prediction 3: Using health and economic data to predict the outcomes for the remaining states. #######
@@ -123,6 +149,19 @@ summary(lm(party ~ unemployment_rate + gdp_growth + inflation, data = winner_eco
 
 dem_lm <- lm(dem_popular ~ unemployment_rate + gdp_growth + inflation, data = winner_economy)
 
-dem_popular_winning <- 
+unemployment_rate <- 0.079
+gdp <- -0.049
+inflation <- 0.062
+
+dem_prediction <- dem_lm$coefficienct[1] * 1 + dem_lm$coefficients[2] * unemployment_rate + dem_lm$coefficients[3] * gdp + dem_lm$coefficients[4] * inflation
+
+
+dem_prediction
+
+dem_lm$coefficient[1] + 
+  dem_lm$coefficients[2] * unemployment_rate + 
+  dem_lm$coefficients[3] * gdp + 
+  dem_lm$coefficients[4] * inflation
+
 
 
