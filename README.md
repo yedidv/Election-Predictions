@@ -1,2 +1,5 @@
 # Election-Predictions
-In this Project, we are trying to forecast the election results using polling data, data from previous elections, and lurking data that may impact the final results. 
+
+We attempted to predict the 2020 US presidential elections using traditional statistical analyses. 
+
+The final report can be found under election_results.pdf 
